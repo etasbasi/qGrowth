@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/dropent.iml" filepath="$PROJECT_DIR$/.idea/dropent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/qGrowth.iml" filepath="$PROJECT_DIR$/.idea/qGrowth.iml" />
     </modules>
   </component>
 </project>
