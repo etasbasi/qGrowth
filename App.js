@@ -76,7 +76,7 @@ export default function App(props) {
           >
             <Stack.Navigator initialRouteName="Login">
               <Stack.Screen name="Demo" component={DemoScreen} />
-              <Stack.Screen name="Root" component={BottomTabNavigator} />
+              <Stack.Screen name="Home" component={BottomTabNavigator} />
               <Stack.Screen
                 options={{ headerShown: false }}
                 name="Login"
