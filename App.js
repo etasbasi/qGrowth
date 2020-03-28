@@ -5,12 +5,28 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { COLOR, ThemeContext, getTheme } from "react-native-material-ui";
 
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import useLinking from "./navigation/useLinking";
 
 import DemoScreen from "./screens/DemoScreen";
 import LoginScreen from "./screens/LoginScreen";
+
+// disable the warnings
+console.disableYellowBox = true;
+
+// you can set your style right here, it'll be propagated to application
+const uiTheme = {
+  palette: {
+    primaryColor: COLOR.green500
+  },
+  toolbar: {
+    container: {
+      height: 50
+    }
+  }
+};
 
 const Stack = createStackNavigator();
 
@@ -32,7 +48,8 @@ export default function App(props) {
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
-          "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf")
+          "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf"),
+          "indie-flower": require("./assets/fonts/IndieFlower-Regular.ttf")
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -52,16 +69,22 @@ export default function App(props) {
     return (
       <View style={styles.container}>
         {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-        <NavigationContainer
-          ref={containerRef}
-          initialState={initialNavigationState}
-        >
-          <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Demo" component={DemoScreen} />
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <ThemeContext.Provider value={getTheme(uiTheme)}>
+          <NavigationContainer
+            ref={containerRef}
+            initialState={initialNavigationState}
+          >
+            <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen name="Demo" component={DemoScreen} />
+              <Stack.Screen name="Root" component={BottomTabNavigator} />
+              <Stack.Screen
+                options={{ headerShown: false }}
+                name="Login"
+                component={LoginScreen}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ThemeContext.Provider>
       </View>
     );
   }
@@ -73,9 +96,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   }
 });
-
-// import AppNavigator from "./navigation/AppNavigator";
-
-// export default App = () => {
-//   return <AppNavigator />;
-// };
