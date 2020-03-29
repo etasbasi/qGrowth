@@ -18,10 +18,12 @@ import BigIcon from "../assets/images/icon-big.png";
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("hi there");
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
 
   async function onSubmit() {
-    setError();
+    setError(null);
+    setLoading(true);
     try {
       let result = await axios.post(
         "https://dropent-backend.herokuapp.com/auth",
@@ -34,6 +36,7 @@ export default function LoginScreen({ navigation }) {
     } catch (e) {
       setError("The email and password don't match");
     }
+    setLoading(false);
   }
 
   return (
@@ -57,15 +60,17 @@ export default function LoginScreen({ navigation }) {
           value={password}
           onChangeText={text => setPassword(text)}
           placeholder="Password"
+          secureTextEntry={true}
         />
         <Button
+          disabled={loading}
           style={{
             container: { height: 50, marginTop: 40 },
             text: { fontSize: 20 }
           }}
           raised
           primary
-          text="Submit"
+          text={loading ? "Loading..." : "Submit"}
           onPress={onSubmit}
         />
         <Text style={styles.error}>{error && error}</Text>
